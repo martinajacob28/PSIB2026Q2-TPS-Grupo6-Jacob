@@ -23,8 +23,7 @@ El trabajo se divide en las siguientes etapas:
 
 | Archivo | Contenido |
 |---|---|
-| `PSIB2026Q2_TPS_Grupo6_Jacob.ipynb` | Notebook con todo el código y el texto explicativo de cada etapa |
-| `PSIB2026Q2-TPS-Grupo6-Jacob.pdf` | Informe del trabajo |
+| `PSIB2026Q2_TPS_Grupo6_Jacob.ipynb` | Notebook con todo el código y el texto explicativo de cada etapa | |
 | `requirements.txt` | Librerías necesarias |
 | `README.md` | Este archivo |
 
