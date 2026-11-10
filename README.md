@@ -1,6 +1,9 @@
 # PSIB20262Q-TPS-Jacob
+
 Pipeline automatizado para la detección y clasificación de latidos ectópicos mediante características temporales y morfológicas
+
 16.63 Procesamiento de Señales e Imágenes Biomédicas (ITBA, 2026 Q2)
+
 Alumna: Martina Jacob
 
 ## Descripción
