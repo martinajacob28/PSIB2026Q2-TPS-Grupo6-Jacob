@@ -80,3 +80,48 @@ Los PVC se clasifican muy bien. Los PAC son la clase más difícil, porque su QR
 - Moody, G. B., & Mark, R. G. (2001). The impact of the MIT-BIH Arrhythmia Database. *IEEE Eng. Med. Biol. Mag.*, 20(3), 45–50.
 - de Chazal, P., O'Dwyer, M., & Reilly, R. B. (2004). Automatic classification of heartbeats using ECG morphology and heartbeat interval features. *IEEE Trans. Biomed. Eng.*, 51(7), 1196–1206.
 - Breiman, L. (2001). Random forests. *Machine Learning*, 45(1), 5–32.
+
+- ## Cómo correr el trabajo con los scripts
+
+Además del notebook, todo el procesamiento está organizado en módulos de Python dentro de la carpeta `ectopicos/`, y un script (`run_pipeline.py`) lo corre de principio a fin.
+
+```
+ectopicos/
+├── config.py            parámetros, división DS1/DS2 y lista de características
+├── preprocesamiento.py  filtros del ECG (pasa-altos, pasa-bajos y notch)
+├── deteccion.py         Pan-Tompkins, fusión AND/OR, período refractario y validación
+├── latidos.py           segmentación, plantilla por morfología dominante y 13 características
+├── estadistica.py       Kruskal-Wallis, Mann-Whitney + Bonferroni y δ de Cliff
+└── clasificacion.py     clasificador por reglas (Youden) y dos Random Forest binarios
+run_pipeline.py          corre todo y guarda los resultados en tablas CSV
+```
+
+**Instalación**
+
+```bash
+pip install -r requirements.txt
+```
+
+**Uso**
+
+```bash
+# Si la base MIT-BIH ya está descargada
+python run_pipeline.py --datos ruta/a/mitdb
+
+# Si no está, la descarga primero
+python run_pipeline.py --datos ruta/a/mitdb --descargar
+
+# Para repetir solo la estadística y la clasificación, sin volver a detectar
+python run_pipeline.py --datos ruta/a/mitdb --reusar
+```
+
+Los resultados se guardan en la carpeta `resultados/`:
+
+| Archivo | Contenido |
+|---|---|
+| `deteccion_por_registro.csv` | Se, Pp, F1 y error de la detección de QRS en cada registro |
+| `verificacion_plantilla.csv` | % de latidos sinusales en la plantilla de cada registro |
+| `caracteristicas.csv` | las 13 características de cada latido, con su clase y registro |
+| `estadistica_por_latido.csv` / `estadistica_por_paciente.csv` | Kruskal-Wallis, ε², δ de Cliff y p de cada par de clases (DS1) |
+| `comparacion_ds2.csv` | Se, Pp y F1 de PAC y PVC con reglas y con Random Forest (DS2) |
+| `resumen.json` | umbrales de las reglas e hiperparámetros elegidos para cada Random Forest |
